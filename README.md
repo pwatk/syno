@@ -1,2 +1,2 @@
 # syno
-Archived custom configuration files for Synology DSM
+Archived configuration files for Synology DSM
