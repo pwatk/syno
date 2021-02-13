@@ -1,0 +1,9 @@
+/volume1/dnsmasq/dnsmasq.log {
+	missingok
+	notifempty
+	postrotate
+		[ -f /volume1/dnsmasq/dnsmasq.pid ] && kill -USR2 `cat /volume1/dnsmasq/dnsmasq.pid`
+	endscript
+	size 10M
+}
+

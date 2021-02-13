@@ -1,0 +1,51 @@
+push "route 192.168.0.0 255.255.255.0"
+push "route 10.8.0.0 255.255.255.0"
+#push "dhcp-option DNS 192.168.0.1"
+
+dev tun
+
+management 127.0.0.1 1195
+
+server 10.8.0.0 255.255.255.0
+
+dh /usr/syno/etc/packages/VPNCenter/openvpn/mykeys/dh.pem
+ca /usr/syno/etc/packages/VPNCenter/openvpn/mykeys/ca.crt
+cert /usr/syno/etc/packages/VPNCenter/openvpn/mykeys/server-name.crt
+key /usr/syno/etc/packages/VPNCenter/openvpn/mykeys/server-name.key
+tls-auth /usr/syno/etc/packages/VPNCenter/openvpn/mykeys/ta.key 0
+crl-verify /usr/syno/etc/packages/VPNCenter/openvpn/mykeys/crl.pem
+
+## Broken
+#user nobody
+#group nobody
+
+max-clients 5
+
+comp-lzo adaptive
+
+persist-tun
+persist-key
+
+keepalive 10 120
+reneg-sec 0
+
+plugin /var/packages/VPNCenter/target/lib/radiusplugin.so /var/packages/VPNCenter/target/etc/openvpn/radiusplugin.cnf
+
+username-as-common-name
+duplicate-cn
+
+status /tmp/ovpn_status_2_result 30
+status-version 2
+
+log-append /var/log/openvpn.log
+verb 3
+mute 20
+
+proto udp
+port 1194
+
+tls-version-min 1.2
+tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA256
+
+cipher AES-256-CBC
+auth SHA256
